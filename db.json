@@ -3,10 +3,17 @@
     {
       "id": "c64151aa-2825-4ff9-8037-acade357068f",
       "title": "Uma boa leitura",
-      "completedAt": "2023-02-06T23:22:56.741Z",
+      "completedAt": "2023-02-09T10:16:43.755Z",
       "createdAt": "2023-02-06T23:12:40.745Z",
-      "updatedAt": "2023-02-06T23:12:40.745Z",
-      "description": "Ler bons livros de programação"
+      "updatedAt": "2023-02-06T23:12:40.745Z"
+    },
+    {
+      "id": "8e63b2ff-97cc-4a95-8faf-8d8511fd3085",
+      "title": "Tomar água",
+      "description": "Beber bastante água durante o dia",
+      "completedAt": null,
+      "createdAt": "2023-02-09T10:11:47.048Z",
+      "updatedAt": "2023-02-09T10:11:47.048Z"
     }
   ]
 }

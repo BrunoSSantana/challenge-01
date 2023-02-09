@@ -19,6 +19,14 @@ class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database, null, 2));
   }
 
+  detail<T extends { id: string }>(table: string, id: string) {
+    const data: T[] = this.#database[table] ?? [];
+
+    const [task] = data.filter((element) => element.id === id);
+
+    return task;
+  }
+
   select<T>(table: string, search: Partial<T>) {
     let data = this.#database[table] ?? [];
 
@@ -55,13 +63,11 @@ class Database {
     const rowIndex = this.#database[table].findIndex((row) => row.id === id);
 
     const dataFiltered = Object.fromEntries(
-      Object.entries(data).filter(([_key, value]) => value)
+      Object.entries(data).filter(([_key, value]) => value !== undefined)
     );
 
     if (rowIndex > -1) {
       const row = this.#database[table][rowIndex];
-
-      console.log({ rowIndex, dataFiltered, row });
 
       this.#database[table][rowIndex] = { id, ...row, ...dataFiltered };
       this.#persist();
