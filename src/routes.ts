@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { completeTask } from "./domains/usecases/complete-task";
 import { createTask } from "./domains/usecases/create-task";
 import { deleteTask } from "./domains/usecases/delete-task";
+import { importTasks } from "./domains/usecases/import-tasks";
 import { listTask } from "./domains/usecases/list-task";
 import { updateTask } from "./domains/usecases/update-task";
 import { buildRoutePath } from "./utils/build-routes-path";
@@ -20,7 +21,7 @@ type Route = {
   method: MethodsType;
   path: RegExp;
   handler: (
-    req: IncomingMessage & { body?: any; query: any; params: any },
+    req: IncomingMessage & { body?: any; query: any; params: any, dataFile: string[] },
     res: ServerResponse
   ) => any;
 };
@@ -46,6 +47,15 @@ export const routes: Route[] = [
       const { task } = createTask({ description, title });
 
       return res.writeHead(201).end(JSON.stringify(task));
+    },
+  },
+  {
+    method: "POST",
+    path: buildRoutePath("/tasks/import"),
+    handler: (req, res) => {
+      importTasks(req.dataFile);
+
+      return res.writeHead(201).end();
     },
   },
   {
@@ -83,7 +93,7 @@ export const routes: Route[] = [
 
       completeTask(id);
 
-      return res.writeHead(200).end()
+      return res.writeHead(200).end();
     },
   },
 ];

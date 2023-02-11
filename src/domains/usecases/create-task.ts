@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { database } from "../../database";
 import { taskBuilder } from "../tasks";
 
-type CreateTaskDTO = {
+export type CreateTaskDTO = {
   title: string;
   description: string;
 };

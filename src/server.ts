@@ -1,12 +1,19 @@
 import http from "node:http";
 import { routes } from "./routes";
-import { extractQueryParams } from "./utils/extract-query-params";
 import { json } from "./utils/json";
+import { file } from "./utils/file";
+import { extractQueryParams } from "./utils/extract-query-params";
 
 const server = http.createServer(async (req, res) => {
   const { method, url } = req;
 
-  await json(req, res);
+  const contentType = req.headers["content-type"]?.split(";")[0];
+
+  if (contentType === "multipart/form-data") {
+    await file(req, res);
+  } else {
+    await json(req, res);
+  }
 
   const route = routes.find(
     (route) => route.path.test(url as string) && route.method === method
@@ -20,10 +27,11 @@ const server = http.createServer(async (req, res) => {
 
     // @ts-ignore
     req.params = params;
-    // @ts-ignore
+
+    // @ts-expect-error Erro de tipagem no req
     req.query = query ? extractQueryParams(query) : {};
 
-    // @ts-ignore
+    // @ts-expect-error Erro ded tipagem no req
     return route.handler(req, res);
   }
 
